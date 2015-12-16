@@ -1,11 +1,11 @@
-# React-Image
+# React-Image-File
 
 An image component that accepts blobs (as returned, from example, from couchdb) and file objects (such as the ones uploaded in the browser)
 
 # Usage
 
 ```sh
-npm install react-image
+npm install react-image-file
 ```
 
 ```js

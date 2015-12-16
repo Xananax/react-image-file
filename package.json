@@ -1,7 +1,7 @@
 {
   "license": "MIT",
   "scripts": {
-    "clean": "rm -rf ./lib/*",
+    "clean": "rm -rf ./lib/* && rm -rf npm-debug.log",
     "es5": "node ./node_modules/.bin/babel ./src -d ./lib",
     "compile": "npm run clean && npm run es5",
     "start": "webpack-dev-server --hot --inline --config webpack/server.js",
@@ -30,7 +30,7 @@
     "webpack": "^1.12.6",
     "webpack-dev-server": "1.12.1"
   },
-  "name": "react-image",
+  "name": "react-image-file",
   "description": "An image component that accepts blobs (as returned, from example, from couchdb) and file objects (such as the ones uploaded in the browser)",
   "version": "0.1.0",
   "main": "index.js",
