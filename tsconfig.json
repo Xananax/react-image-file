@@ -1,9 +1,9 @@
 { "compilerOptions": 
-	{ "target": "es5"
+	{ "target": "es6"
 	, "module": "commonjs"
 	, "declaration": false
 	, "noImplicitAny": false
-	, "removeComments": true
+	, "removeComments": false
 	, "experimentalDecorators": true
 	, "noLib": false
 	, "jsx": "react"

@@ -18,6 +18,6 @@ base.plugins = base.plugins ? base.plugins.concat(newPlugins) : newPlugins;
 
 base.module.loaders[0].include = [dirs.example,dirs.src]
 base.module.loaders[0].loader = ['react-hot',base.module.loaders[0].loader]
-base.devtool = 'eval'
+//base.devtool = 'eval'
 
 module.exports = base;

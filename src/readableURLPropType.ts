@@ -1,6 +1,6 @@
 import isReadable from './isReadable';
 
-export type PropType = {
+export interface PropType {
 	(props:any, propName:string, componentName:string):Error
 	isRequired?:PropType
 }

@@ -1,10 +1,12 @@
 import * as React from 'react'
 import {Component,PropTypes} from 'react';
 import {EMPTY,DONE,ERROR,LOADING} from './constants';
+import * as shallowCompare from 'react-addons-shallow-compare'
+import transparentGIF from './transparentGIF';
 
 export type CropAttribute = 'cover'|'contain'|'none'
 
-export type ImageTemplateProps = {
+export interface ImageTemplateProps{
 	src:string
 	alt:string
 	loadingURL?:string
@@ -13,12 +15,14 @@ export type ImageTemplateProps = {
 	status?:string
 	width?:string|number
 	height?:string|number
+	imgWidth?:number
+	imgHeight?:number
 	crop?:CropAttribute
 	type?:'img'|'div'
 }
 
 
-export const statusAsAttr = (status:string) => `data-status-${status}`	
+export const statusAsAttr = (status:string='unknown') => `data-status-${status.toLowerCase()}`	
 
 export const renderDIV = (src:string,status:string,alt:string,width:string|number,height:string|number,crop:CropAttribute)=>{
 	const style = {
@@ -28,11 +32,11 @@ export const renderDIV = (src:string,status:string,alt:string,width:string|numbe
 	,	backgroundSize:crop
 	,	backgroundRepeat:'no-repeat'
 	,	backgroundPosition:'50% 50%'
-	,	[statusAsAttr(status)]:true
 	}
 	const props = {
 		title:alt
 	,	style
+	,	[statusAsAttr(status)]:true
 	}
 	return <div {...props}/>
 }
@@ -78,12 +82,18 @@ export default class ImageTemplate extends Component<ImageTemplateProps,{}>{
 	,	status:PropTypes.oneOf([EMPTY,DONE,ERROR,LOADING])
 	,	width:PropTypes.oneOfType([PropTypes.string,PropTypes.number])
 	,	height:PropTypes.oneOfType([PropTypes.string,PropTypes.number])
+	,	imgWidth:PropTypes.number
+	,	imgHeight:PropTypes.number
 	,	crop:PropTypes.oneOf(['cover','contain','none'])
 	,	type:PropTypes.oneOf(['img','div'])
 	};
 	static defaultProps = {
 		type:'div'
 	,	crop:'contain'
+	,	emptyURL:transparentGIF
+	}
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
 	}
 	render(){
 		const {alt,width,height} = this.props;

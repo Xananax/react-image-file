@@ -13,6 +13,11 @@ base.module.loaders[0].loaders = [
 	'react-hot'
 ,	'babel'
 ]
+base.module.loaders[1].loaders = [	
+	'react-hot'
+,	'babel'
+,	'ts'
+]
 var devServer = {
 	contentBase: dirs.public
 ,	port:8080

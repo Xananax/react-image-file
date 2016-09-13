@@ -23,6 +23,8 @@ module.exports =
 				, exclude: /node_modules/
 				, loaders: ["babel"]
 				}
+				/** 
+				 * 
 			,	{ test: /\.styl$/
 				//,	loader: ExtractTextPlugin.extract("style-loader",'!css-loader!stylus-loader')
 				, loader:'style-loader!css-loader!stylus-loader'
@@ -30,11 +32,12 @@ module.exports =
 			,	{ test: /\.css$/
 				, loader: "style-loader!css-loader"
 				}
+				*/
 			,	{ test: /\.tsx?$/
 				, loaders: ['ts-loader']
 				, include: dirs.src
 				}
 			]
 		}
-	, devtool:"eval"
+	, devtool:"#sourcemap"
 	}

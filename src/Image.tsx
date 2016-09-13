@@ -5,6 +5,7 @@ import load from './load';
 import createDOMImage from './createDOMImage';
 import {EMPTY,DONE,ERROR,LOADING} from './constants';
 import ImageTemplate from './ImageTemplate'
+import transparentGIF from './transparentGIF';
 
 export type ImageLoaderProps = {
 	template?:any
@@ -21,7 +22,11 @@ export type ImageLoaderState = {
 	error?:Error|DOMError
 }
 
-class Image extends Component<ImageLoaderProps,ImageLoaderState>{
+export function isDefined(obj){
+	return typeof obj !== 'undefined' 
+}
+
+export default class ImageLoader extends Component<ImageLoaderProps,ImageLoaderState>{
 	static propTypes = {
 		template:PropTypes.any
 	,	file:PropTypes.oneOfType([PropTypes.string, readableURLPropType])
@@ -33,14 +38,14 @@ class Image extends Component<ImageLoaderProps,ImageLoaderState>{
 	constructor(props,context){
 		super(props,context);
 		this.state = {
-			src:''
+			src:transparentGIF
 		,	alt:''
 		,	status:EMPTY
 		,	width:0
 		,	height:0
 		}
 	}
-	load(props){
+	load(props:ImageLoaderProps){
 		const that = this;
 		that.setState({status:LOADING});
 		load(props,function(err,res,done){
@@ -62,16 +67,18 @@ class Image extends Component<ImageLoaderProps,ImageLoaderState>{
 	componentDidMount(){
 		if(this.props.file){this.load(this.props.file);}
 	}
-	componentWillReceiveProps(nextProps){
+	componentWillReceiveProps(nextProps:ImageLoaderProps){
 		if(nextProps.file){
 			this.load(nextProps.file);
+		}else if(nextProps.file == null){
+			this.setState({src:transparentGIF})
 		}
 	}
-	shouldComponentUpdate(nextProps,nextState){
+	shouldComponentUpdate(nextProps:ImageLoaderProps,nextState:ImageLoaderState):Boolean{
 		return (
-			(nextProps.file && nextProps.file!=this.props.file) ||
-			(nextProps.alt && nextProps.alt!=this.props.alt) ||
-			(nextProps.template && nextProps.template!=this.props.template) ||
+			(isDefined(nextProps.file) && nextProps.file!=this.props.file) ||
+			(isDefined(nextProps.alt) && nextProps.alt!=this.props.alt) ||
+			(isDefined(nextProps.template) && nextProps.template!=this.props.template) ||
 			(nextState.src != this.state.src)
 		)
 	}
@@ -92,5 +99,3 @@ class Image extends Component<ImageLoaderProps,ImageLoaderState>{
 		return React.createElement(Comp,props);
 	}
 }
-
-export default Image

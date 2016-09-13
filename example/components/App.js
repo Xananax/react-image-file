@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import {ImageUploadField} from '../../src';
+import ImageUploadField from '../../src/ImageUploadField';
 
 class App extends Component{
 

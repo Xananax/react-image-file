@@ -2,7 +2,7 @@ import isString from './isString';
 import isBlob from './isBlob';
 import isFile from './isFile';
 
-export type LoadCallback = {
+export interface LoadCallback{
 	(err:Error|DOMError,res?:{src:string,alt:string},done?:()=>void):void
 }
 
