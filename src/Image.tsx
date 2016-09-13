@@ -1,11 +1,27 @@
-import React,{Component,PropTypes} from 'react';
+import * as React from 'react';
+import {Component,PropTypes} from 'react';
 import readableURLPropType from './readableURLPropType';
 import load from './load';
 import createDOMImage from './createDOMImage';
 import {EMPTY,DONE,ERROR,LOADING} from './constants';
 import ImageTemplate from './ImageTemplate'
 
-class Image extends Component{
+export type ImageLoaderProps = {
+	template?:any
+	file?:string
+	alt?:string
+}
+
+export type ImageLoaderState = {
+	src?:string
+	alt?:string
+	status?:string
+	width?:number
+	height?:number
+	error?:Error|DOMError
+}
+
+class Image extends Component<ImageLoaderProps,ImageLoaderState>{
 	static propTypes = {
 		template:PropTypes.any
 	,	file:PropTypes.oneOfType([PropTypes.string, readableURLPropType])

@@ -5,6 +5,6 @@
  * @param  {any}  obj an object to test
  * @return {Boolean}     true if the object is a blob
  */
-export default function isBlob(obj){
+export default function isBlob(obj:any):obj is Blob{
 	return (obj && obj.content_type &&  obj.data)
 }

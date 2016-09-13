@@ -8,7 +8,7 @@ import isImageComplete from './isImageComplete'
  * @param  {function} onError callback to call when the image has an error. Receives the image object as a parameter. Optional, but note that `onload` will never be called if an error occurs
  * @return {DOM node}         the image object
  */
-export default function createDOMImage(src,onLoad,onError){
+export default function createDOMImage(src:string,onLoad?:(img:HTMLImageElement)=>void,onError?:(img:HTMLImageElement,err:Error)=>void):HTMLImageElement{
 
 	var img = new Image()
 	img.alt = '';
@@ -19,7 +19,7 @@ export default function createDOMImage(src,onLoad,onError){
 		if(!called){
 			called = true;
 			img.onload = null;
-			img.onError = null;
+			img.onerror = null;
 			return true;
 		}
 		return false
@@ -28,12 +28,12 @@ export default function createDOMImage(src,onLoad,onError){
 	function onLoadWrapped(){
 		callback() && onLoad && onLoad(img)
 	}
-	function onErrorWrapped(){
-		callback() && onError && onError(img)
+	function onErrorWrapped(err){
+		callback() && onError && onError(img,err)
 	}
 	img.onload = onLoadWrapped
-	img.onError = onErrorWrapped
-	src && img.src = src
+	img.onerror = onErrorWrapped
+	src && (img.src = src);
 
 	if(isImageComplete(img)){
 		onLoadWrapped();

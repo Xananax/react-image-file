@@ -2,6 +2,10 @@ import isString from './isString';
 import isBlob from './isBlob';
 import isFile from './isFile';
 
+export type LoadCallback = {
+	(err:Error|DOMError,res?:{src:string,alt:string},done?:()=>void):void
+}
+
 /**
  * Loads a Blob, or a File in a way that makes it suitable to be used in a node image
  * Does nothing to strings, but accepts them in order to make it easy to use this function everywhere
@@ -13,7 +17,7 @@ import isFile from './isFile';
  *  - done: an optional function used to free the resource; you need to call that after assigning the resource to an image
  * @return {void}
  */
-export default function load(prop,cb){
+export default function load(prop:any,cb:LoadCallback):void{
 	if(isString(prop)){
 		return loadString(prop,cb);
 	}
@@ -25,31 +29,31 @@ export default function load(prop,cb){
 	}
 }
 
-export function loadString(src,cb){
-	return cb(null,{src});
+export function loadString(src:string,cb:LoadCallback):void{
+	cb(null,{src,alt:''});
 }
 
-export function loadFile(file,cb){
+export function loadFile(file:File,cb:LoadCallback):void{
 	const reader = new FileReader();
-	reader.onload = function(evt){
+	reader.onload = function(evt:ProgressEvent){
 		cb(null,{
-			src:evt.target.result
-		,	alt:escape(file.name)
+			src:reader.result
+		,	alt:file.name
 		})
 	}
-	reader.onerror = function(evt){
-		cb(evt);
+	reader.onerror = function(evt:ErrorEvent){
+		cb(reader.error);
 	}
 	reader.readAsDataURL(file);
 }
 
-export function loadBlob(blob,cb){
+export function loadBlob(blob:Blob,cb:LoadCallback):void{
 	try{	
 		const src = URL.createObjectURL(blob);
 		function done(){
 			URL.revokeObjectURL(src);
 		}
-		cb(null,{src},done);
+		cb(null,{src,alt:''},done);
 	}catch(e){
 		return cb(e);
 	}

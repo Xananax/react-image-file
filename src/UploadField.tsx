@@ -1,4 +1,5 @@
-import React,{PropTypes,Component} from 'react'
+import * as React from 'react'
+import {PropTypes,Component} from 'react'
 import {EMPTY,DONE,ERROR,LOADING} from './constants';
 import Image from './Image';
 
@@ -17,7 +18,21 @@ const inputStyle = {
 ,	opacity:0
 }
 
-class UploadField extends Component{
+export type UploadFieldProps = {
+	onChange:(files:File|File[],value:any)=>void
+	name:string
+	multiple:boolean
+	files:File|File[]
+	uploadFieldTemplate:any
+	filesTemplate:()=>void
+	label:string
+}
+
+export type UploadFieldState = {
+	files:File|File[]
+}
+
+export default class UploadField extends Component<UploadFieldProps,UploadFieldState>{
 	static propTypes = {
 		onChange:PropTypes.func
 	,	name:PropTypes.string
@@ -60,5 +75,3 @@ class UploadField extends Component{
 		return this.renderInput(Comp,name,multiple,label);
 	}
 }
-
-export default UploadField;
