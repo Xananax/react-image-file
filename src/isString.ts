@@ -1,3 +1,5 @@
-export default function isString(obj:any):obj is string{
-	return obj && (typeof obj === 'string');
-}
+export const isString = 
+  ( obj: any): obj is string =>
+  ( obj && ( typeof obj === 'string' ) )
+
+export default isString

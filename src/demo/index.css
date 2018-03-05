@@ -1,0 +1,138 @@
+/**
+ * The following lines are important for the input to look the same
+ * on all browsers
+**/
+  input[type=file]
+, input[type=file]::-webkit-file-upload-button 
+  { cursor: pointer
+  }
+
+/**
+ * The rest is for the demo only
+**/
+
+body 
+  { margin: 0
+  ; padding: 0
+  ; font-family: sans-serif
+  }
+
+fieldset
+  { margin: 0 auto
+  ; clear:both
+  }
+
+.wrapper
+  { width:800px
+  ; margin:0 auto
+  }
+
+.field
+  { margin:2em
+  ; padding-bottom: 2em
+  ; position: relative
+  ; float: left
+  ; clear: both
+  }
+
+.field::after
+  { content: "" 
+  ; position: absolute
+  ; display: block
+  ; width: 80%
+  ; height: 1px
+  ; bottom:0
+  ; left: 10%
+  ; margin: 0 auto
+  ; background: rgb(238, 238, 238)
+  }
+
+.field:last-child::after
+  { content:none
+  }
+
+label
+  { float: left
+  ; color:rgb(173, 173, 173)
+  ; width:7em
+  }
+  
+  input
+, button
+, label
+  { font-size:1.2em
+  ; line-height:1.2
+  ; padding:.4em .1em
+  ; background: white
+  ; margin: .2em .05em
+  ; border: none
+  ; transition:all .3s ease-out
+  }
+
+input[type="text"]
+  { border-bottom:2px solid #ccc
+  ; color:rgb(117, 117, 117)
+  }
+
+input[type="text"]:focus
+  { border-bottom:2px solid rgb(120, 201, 255)
+  ; color: rgb(120, 201, 255)
+  ; outline: none
+  }
+
+  button
+, input[type="submit"]
+  { background: rgb(120, 201, 255)
+  ; border-radius:.2em
+  ; padding:.6em
+  ; margin:0 .05em
+  ; color:white
+  }
+
+  button:focus
+, button:hover
+, input[type="submit"]:focus
+, input[type="submit"]:hover
+  { background: rgb(64, 179, 255)
+  }
+
+.upload-thumbnail
+  { width: 200px
+  ; height: 200px
+  ; position: relative
+  ; margin: 3px
+  ; float: left
+  ; background: red
+  }
+
+.upload-thumbnail button
+  { width: 1em
+  ; height: 1em
+  ; position: absolute
+  ; right: 0
+  ; top: 0
+  ; line-height:1
+  ; font-size: 1em
+  ; padding: 0
+  }
+
+.upload-thumbnail div
+  { position: absolute
+  ; top: 0
+  ; left: 0
+  ; bottom: 0
+  ; right: 0
+  }
+
+.upload-thumbnail span
+  { position: absolute
+  ; left: 0
+  ; bottom: 0
+  ; right: 0
+  ; box-sizing: border-box
+  ; padding: 1em
+  ; height: 4em
+  ; font-size: .7em
+  ; background: rgba(0,0,0,.4)
+  ; color: white
+  }

@@ -1,109 +1,148 @@
 import * as React from 'react'
-import {PropTypes,Component} from 'react'
-import {EMPTY,DONE,ERROR,LOADING} from './constants';
-import Image from './Image';
-import UploadField,{UploadFieldProps,UploadFieldState} from './UploadField';
-import * as shallowCompare from 'react-addons-shallow-compare'
+import { PureComponent } from 'react'
 
-export interface ImageUploadFieldProps extends UploadFieldProps {
-	ImageUploadFieldTemplate?:any
-	imageWidth?:number
-	imageHeight?:number
-}
+import 
+  { EMPTY
+  , DONE
+  , ERROR
+  , LOADING
+  } from './constants';
+import 
+  { ImageLoader
+  } from './ImageLoader';
+import 
+  { UploadField
+  , UploadFieldProps
+  , UploadFieldState
+  } from './UploadField';
 
-export default class ImageUploadField extends Component<ImageUploadFieldProps,UploadFieldState>{
-	static propTypes:React.ValidationMap<ImageUploadFieldProps> = {
-		onChange:PropTypes.func
-	,	name:PropTypes.string
-	,	value:PropTypes.any
-	,	files:PropTypes.array
-	,	multiple:PropTypes.bool
-	,	ImageUploadFieldTemplate:PropTypes.any
-	,	imageWidth:PropTypes.number
-	,	imageHeight:PropTypes.number
-	}
-	static defaultProps = {
-		ImageUploadFieldTemplate:'div'
-	,	imageWidth:50
-	,	imageHeight:50
-	,	accept:'.jpg,.png,.jpeg,.bmp,.gif,image/jpg,image/gif,image/png,image/bmp'
-	}
-	constructor(props:ImageUploadFieldProps,context){
-		super(props,context);
-		this.handleChange = this.handleChange.bind(this);
-		this.removeImage = this.removeImage.bind(this);
-		this.state = {files:props.files || props.multiple ? [] : null}
-	}
-	handleChange(files:File|File[]){
-		if(this.props.onChange){
-			this.props.onChange(files);
-		}else{
-			this.setState({files:files});
-		}
-	}
-	removeImage(n?:number){
-		const multiple = this.props.multiple
-		if(!multiple){
-			this.handleChange(null);
-		}else{
-			const files = (this.state.files as File[]).slice()
-			files.splice(n,1);
-			this.handleChange(files)
-		}
-	}
-	componentWillReceiveProps(nextProps:ImageUploadFieldProps){
-		if(nextProps.files){this.setState({files:nextProps.files});}
-	}
-	renderImages(files:File[]){
-		const that = this;
-		if(files && files.length){		
-			return (<div>
-				{files.map(that.renderImage.bind(this))}
-			</div>)
-		}
-	}
-	renderImage(file:File,key?:number){
-		const {imageHeight,imageWidth} = this.props;
-		key = key || 0;
-		const name = file? file.name : 'no image'
-		const status = file ? EMPTY : DONE
-		const props = {
-			file:file
-		,	width:imageWidth
-		,	height:imageHeight
-		,	status
-		}
-		const closeBtn = file ? this.renderCloseButton(key) : null
-		return (<div key={key}>{closeBtn}<Image {...props}/><span>{name}</span></div>)
-	}
-	renderCloseButton(key){
-		const that = this;
-		return (<button onClick={()=>that.removeImage(key)}>x</button>)
-	}
-	renderMultiple(Comp,input,images){
-		return (<Comp>
-			{input}
-			{images}
-		</Comp>)
-	}
-	renderUnique(Comp,input,image){
-		return (<Comp>
-			{image}
-			{input}
-		</Comp>)
-	}
-	renderInput(name:string,multiple:boolean,files:File|File[],accept:string){
-		return <UploadField name={name} label={this.props.label} multiple={multiple} files={files} onChange={this.handleChange} accept={accept}/>
-	}
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
-	render(){
-		const {files} = this.state;
-		const {name,multiple,accept} = this.props;
-		const Comp = this.props.ImageUploadFieldTemplate;
-		const input = this.renderInput(name,multiple,files,accept);
-		const images = multiple ? this.renderImages(files as File[]) : this.renderImage(files as File);
-		return multiple ? this.renderMultiple(Comp,input,images) : this.renderUnique(Comp,input,images);
-	}
-}
+export interface ImageUploadFieldProps extends UploadFieldProps
+  { ImageUploadFieldTemplate?: any
+  ; imageWidth?: number
+  ; imageHeight?: number
+  ; thumbnailClassName?: string
+  }
+
+export interface ImageUploadFieldThumbnailProps
+  { file: File
+  , className?: string
+  , imageWidth?: number
+  , imageHeight?: number
+  , onClose: () => any
+  }
+
+export const ImageUploadFieldThumbnailCloseButton = 
+  ({ onClick }: { onClick: () => any } ) => 
+  ( <button onClick={onClick}>x</button>
+  )
+
+export const ImageUploadFieldThumbnail = 
+  ( { file, className, onClose, imageWidth, imageHeight }: ImageUploadFieldThumbnailProps ) => 
+  { const name = file? file.name : 'no image'
+  ; const status = file ? EMPTY : DONE
+  ; const props = 
+    { file: file
+    , width: imageWidth
+    , height: imageHeight
+    , status
+    , crop:'cover' as 'cover'
+    }
+  ; const closeBtn = file ? <ImageUploadFieldThumbnailCloseButton onClick={onClose}/> : null
+  ; return (<div className={className}>{closeBtn}<ImageLoader {...props}/><span>{name}</span></div>)
+  }
+
+/** 
+ * Simple Image Upload Field class to be used in any React project.
+ */
+export class ImageUploadField extends PureComponent< Partial< ImageUploadFieldProps >, UploadFieldState >
+  { static defaultProps = 
+    { ImageUploadFieldTemplate: 'div'
+    // , imageWidth: 50
+    // , imageHeight: 50
+    , thumbnailClassName: 'upload-thumbnail'
+    , accept: '.jpg,.png,.jpeg,.bmp,.gif,image/jpg,image/gif,image/png,image/bmp'
+    }
+  ; constructor( props: ImageUploadFieldProps, context: any )
+    { super( props, context )
+    ; this.handleChange = this.handleChange.bind( this )
+    ; this.removeImage = this.removeImage.bind( this )
+    ; this.renderImage = this.renderImage.bind( this )
+    ; this.state = { files: props.files || [] }
+    }
+  ; handleChange( files: File[] )
+    { if(this.props.onChange)
+      { this.props.onChange( files )
+      }else
+      { this.setState( { files } )
+      }
+    }
+  ; removeImage( n?: number )
+    { const files = ( this.state.files as File[] ).slice()
+    ; files.splice (n || 0,1 );
+    ; this.handleChange( files )
+    }
+  ; componentWillReceiveProps( nextProps: ImageUploadFieldProps )
+    { if( nextProps.files )
+      { this.setState( { files: nextProps.files } )
+      }
+    }
+  ; renderImages( files?: File[] )
+    { if( files && files.length )
+      { return (
+        <div>
+          {files.map( this.renderImage )}
+        </div>)
+      }
+      return null
+    }
+  ; renderImage( file: File, key: number )
+    { const 
+      { imageWidth
+      , imageHeight
+      , thumbnailClassName:className
+      } = this.props
+    ; const imageProps = 
+      { file
+      , key
+      , imageHeight
+      , imageWidth
+      , className
+      , onClose: this.removeImage
+      }
+    ; return <ImageUploadFieldThumbnail {...imageProps}/>
+    }
+  ; renderMultiple( input: JSX.Element, images: JSX.Element | null )
+    { return (
+      <div>
+        {input}
+        {images}
+      </div>)
+    }
+  ; renderUnique( input: JSX.Element, images: JSX.Element | null )
+    { return (
+      <div>
+        {images}
+        {input}
+      </div>)
+    }
+  ; render()
+    { const 
+      { files
+      } = this.state
+    ; const 
+      { ImageUploadFieldTemplate: Comp
+      , onChange
+      , ...fileInputProps
+      } = this.props
+    ; const input = <UploadField {...fileInputProps} onChange={this.handleChange}/>
+    ; const images = this.renderImages( files )
+    ; const markup = 
+      ( this.props.multiple
+      ? this.renderMultiple( input, images )
+      : this.renderUnique( input, images )
+      )
+    ; return markup;
+    }
+  }
+
+export default ImageUploadField
