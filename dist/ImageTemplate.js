@@ -21,10 +21,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_1 = require("react");
 exports.DivImage = function (_a) {
-    var src = _a.src, status = _a.status, alt = _a.alt, width = _a.width, height = _a.height, imgHeight = _a.imgHeight, imgWidth = _a.imgWidth, crop = _a.crop, statusAttr = _a.statusAttr;
+    var src = _a.src, status = _a.status, alt = _a.alt, width = _a.width, height = _a.height, imgHeight = _a.imgHeight, imgWidth = _a.imgWidth, crop = _a.crop, statusAttr = _a.statusAttr, className = _a.className;
     var props = (_b = { title: alt,
-            style: { width: width || imgWidth,
-                height: height || imgHeight,
+            className: className,
+            style: { width: width,
+                height: height,
                 backgroundImage: "url('" + src + "')",
                 backgroundSize: crop,
                 backgroundRepeat: "no-repeat",
@@ -34,11 +35,11 @@ exports.DivImage = function (_a) {
     var _b;
 };
 exports.ImgImage = function (_a) {
-    var src = _a.src, status = _a.status, alt = _a.alt, width = _a.width, height = _a.height, statusAttr = _a.statusAttr, imgWidth = _a.imgWidth, imgHeight = _a.imgHeight;
+    var src = _a.src, status = _a.status, alt = _a.alt, width = _a.width, height = _a.height, statusAttr = _a.statusAttr, imgWidth = _a.imgWidth, imgHeight = _a.imgHeight, className = _a.className;
     var props = (_b = { src: src,
             alt: alt,
-            width: width || imgWidth,
-            height: height || imgHeight }, _b[statusAttr] = true, _b);
+            width: width,
+            height: height }, _b[statusAttr] = true, _b.className = className, _b);
     return React.createElement("img", __assign({}, props));
     var _b;
 };

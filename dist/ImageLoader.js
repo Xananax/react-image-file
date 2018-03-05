@@ -132,7 +132,7 @@ var ImageLoader = /** @class */ (function (_super) {
     ;
     ImageLoader.prototype.render = function () {
         var _a = this.state, src = _a.src, imgWidth = _a.width, imgHeight = _a.height;
-        var _b = this.props, template = _b.template, width = _b.width, height = _b.height;
+        var _b = this.props, template = _b.template, width = _b.width, height = _b.height, className = _b.className;
         var alt = this.props.alt || this.state.alt || '';
         ;
         var crop = exports.getCrop(this.props);
@@ -145,7 +145,8 @@ var ImageLoader = /** @class */ (function (_super) {
             imgHeight: imgHeight,
             crop: crop,
             status: status,
-            statusAttr: statusAttr });
+            statusAttr: statusAttr,
+            className: className });
         return React.createElement(template, props);
     };
     ImageLoader.defaultProps = { template: ImageTemplate_1.ImageTemplate,

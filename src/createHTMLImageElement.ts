@@ -1,15 +1,19 @@
 import { isImageLoaded } from './isImageLoaded'
+import { noOp } from './noOp'
 
+/** 
+ * callback used when the image loads successfully
+ */
 export interface OnImageLoadSuccess
   { ( img:HTMLImageElement ):void
   }
 
+/** 
+ * callback used when the image loading process produces an error
+ */
 export interface OnImageLoadError
   { ( img:HTMLImageElement, err:ErrorEvent ):void
   }
-
-// tslint:disable-next-line:no-empty
-const noOp = () => {}
 
 /**
  * Creates a DOM image object and set its onload and onerror properties.

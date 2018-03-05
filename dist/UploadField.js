@@ -71,8 +71,12 @@ var UploadField = /** @class */ (function (_super) {
         }
     };
     ;
-    UploadField.prototype.renderInput = function (Comp, name, multiple, label, accept) {
-        var inputProps = { name: name,
+    UploadField.prototype.render = function () {
+        var files = this.state.files;
+        var _a = this.props, id = _a.id, name = _a.name, multiple = _a.multiple, label = _a.label, accept = _a.accept, className = _a.className, tabIndex = _a.tabIndex;
+        var Comp = this.props.uploadFieldTemplate;
+        var inputProps = { id: id,
+            name: name,
             accept: accept,
             onChange: this.handleChange,
             multiple: multiple,
@@ -81,16 +85,11 @@ var UploadField = /** @class */ (function (_super) {
         var props = { containerStyle: containerStyle,
             buttonStyle: buttonStyle,
             label: label,
-            inputProps: inputProps
+            inputProps: inputProps,
+            className: className,
+            tabIndex: tabIndex
         };
         return React.createElement(Comp, __assign({}, props));
-    };
-    ;
-    UploadField.prototype.render = function () {
-        var files = this.state.files;
-        var _a = this.props, name = _a.name, multiple = _a.multiple, label = _a.label, accept = _a.accept;
-        var Comp = this.props.uploadFieldTemplate;
-        return this.renderInput(Comp, name, multiple, label, accept);
     };
     UploadField.defaultProps = { uploadFieldTemplate: UploadFieldTemplate_1.UploadFieldTemplate,
         label: 'upload',

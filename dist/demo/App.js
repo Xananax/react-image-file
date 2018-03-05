@@ -37,8 +37,8 @@ var App = /** @class */ (function (_super) {
             files.map(function (f, i) { return body.append("files[" + i + "]", f); });
             fetch('http://localhost:8000', { method: 'POST', body: body })
                 .then(function (response) { return response.json(); })
-                .then(function (response) { return console.log(response); });
-            console.log(body);
+                .then(function (response) { return console.log(response); })
+                .catch(function (err) { return console.log(err.message); });
             console.log({ text: text, file: file, files: files });
         };
         _this.state = { text: '', files: [], file: [] };
@@ -47,21 +47,25 @@ var App = /** @class */ (function (_super) {
     ;
     App.prototype.render = function () {
         var _a = this.state, files = _a.files, text = _a.text, file = _a.file;
-        return (React.createElement("div", null,
+        return (React.createElement("div", { className: "wrapper" },
             React.createElement("form", { onSubmit: this.onSubmit },
-                React.createElement("h1", null, "React-Image"),
-                React.createElement("label", null, "Fill the form, then open the console to see results when you press \"ok\""),
-                React.createElement("br", null),
+                React.createElement("h1", null, "React-Image-File"),
                 React.createElement("fieldset", null,
-                    React.createElement("legend", null, "Just a text field"),
-                    React.createElement("input", { id: "text", type: "text", onChange: this.onTextChange, value: text })),
-                React.createElement("fieldset", null,
-                    React.createElement("legend", null, "Multiple files upload"),
-                    React.createElement(ImageUploadField_1.ImageUploadField, { multiple: true, files: files, label: "Upload Images", onChange: this.onFilesChange })),
-                React.createElement("fieldset", null,
-                    React.createElement("legend", null, "Single file upload"),
-                    React.createElement(ImageUploadField_1.ImageUploadField, { multiple: false, files: file, label: "Upload Images", onChange: this.onFileChange })),
-                React.createElement("input", { type: "submit", value: "ok" }))));
+                    React.createElement("legend", null, "Fill the form, then open the console to see results when you press \"ok\""),
+                    React.createElement("div", { className: "field" },
+                        React.createElement("label", { htmlFor: "text" }, "Some text"),
+                        React.createElement("input", { name: "text", id: "text", type: "text", onChange: this.onTextChange, value: text })),
+                    React.createElement("div", { className: "field" },
+                        React.createElement("label", { htmlFor: "files" }, "Images"),
+                        React.createElement(ImageUploadField_1.ImageUploadField, { className: "upload", id: "files", multiple: true, files: files, label: "Upload Images", onChange: this.onFilesChange })),
+                    React.createElement("div", { className: "field" },
+                        React.createElement("label", { htmlFor: "file" }, "Image"),
+                        React.createElement(ImageUploadField_1.ImageUploadField, { className: "upload", id: "file", multiple: false, files: file, label: "Upload Images", onChange: this.onFileChange })),
+                    React.createElement("div", { className: "field" },
+                        React.createElement("input", { type: "submit", value: "ok" })))),
+            React.createElement("p", null,
+                "This is a demo for react-image-file, found ",
+                React.createElement("a", { href: "https://github.com/Xananax/react-image-file" }, "here"))));
     };
     return App;
 }(react_1.PureComponent));

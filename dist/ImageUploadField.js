@@ -37,16 +37,17 @@ exports.ImageUploadFieldThumbnailCloseButton = function (_a) {
     return (React.createElement("button", { onClick: onClick }, "x"));
 };
 exports.ImageUploadFieldThumbnail = function (_a) {
-    var file = _a.file, onClose = _a.onClose, imageWidth = _a.imageWidth, imageHeight = _a.imageHeight;
+    var file = _a.file, className = _a.className, onClose = _a.onClose, imageWidth = _a.imageWidth, imageHeight = _a.imageHeight;
     var name = file ? file.name : 'no image';
     var status = file ? constants_1.EMPTY : constants_1.DONE;
     var props = { file: file,
         width: imageWidth,
         height: imageHeight,
-        status: status
+        status: status,
+        crop: 'cover'
     };
     var closeBtn = file ? React.createElement(exports.ImageUploadFieldThumbnailCloseButton, { onClick: onClose }) : null;
-    return (React.createElement("div", null,
+    return (React.createElement("div", { className: className },
         closeBtn,
         React.createElement(ImageLoader_1.ImageLoader, __assign({}, props)),
         React.createElement("span", null, name)));
@@ -95,11 +96,12 @@ var ImageUploadField = /** @class */ (function (_super) {
     };
     ;
     ImageUploadField.prototype.renderImage = function (file, key) {
-        var _a = this.props, imageWidth = _a.imageWidth, imageHeight = _a.imageHeight;
+        var _a = this.props, imageWidth = _a.imageWidth, imageHeight = _a.imageHeight, className = _a.thumbnailClassName;
         var imageProps = { file: file,
             key: key,
             imageHeight: imageHeight,
             imageWidth: imageWidth,
+            className: className,
             onClose: this.removeImage
         };
         return React.createElement(exports.ImageUploadFieldThumbnail, __assign({}, imageProps));
@@ -127,9 +129,11 @@ var ImageUploadField = /** @class */ (function (_super) {
             : this.renderUnique(input, images));
         return markup;
     };
-    ImageUploadField.defaultProps = { ImageUploadFieldTemplate: 'div',
-        imageWidth: 50,
-        imageHeight: 50,
+    ImageUploadField.defaultProps = { ImageUploadFieldTemplate: 'div'
+        // , imageWidth: 50
+        // , imageHeight: 50
+        ,
+        thumbnailClassName: 'upload-thumbnail',
         accept: '.jpg,.png,.jpeg,.bmp,.gif,image/jpg,image/gif,image/png,image/bmp'
     };
     return ImageUploadField;

@@ -15,6 +15,10 @@ The module also contains a few bonuses, such as an image upload field and a prop
 
 Entirely written in Typescript and decently well typed, but lacking tests for the time being unfortunately :(
 
+- repo [here](https://github.com/Xananax/react-image-file)
+- demo [here](http://xananax.github.io/react-image-file/)
+- documentation (in progress) [here](http://xananax.github.io/react-image-file/doc)
+
 ## Usage
 
 ```sh
@@ -115,7 +119,7 @@ npm start
 
 Builds the demo in './dist' and uploads it to gh-pages
 ```sh
-npm deploy
+npm run deploy
 ```
 
 Compiles typescript and readies the module for publishing on npm

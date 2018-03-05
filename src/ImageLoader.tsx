@@ -6,7 +6,10 @@ import { EMPTY, DONE, ERROR, LOADING, ImageLoaderLoadStatus } from './constants'
 import { transparentGIF } from './transparentGIF'
 import { ImageTemplate } from './ImageTemplate'
 
-export type CropAttribute = 'cover'|'contain'
+/** 
+ * A type representing the crop option
+ */
+export type CropAttribute = 'cover' | 'contain'
 
 export interface ImageLoaderProps 
   { template?: any
