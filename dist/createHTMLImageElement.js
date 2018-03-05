@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var isImageLoaded_1 = require("./isImageLoaded");
-// tslint:disable-next-line:no-empty
-var noOp = function () { };
+var noOp_1 = require("./noOp");
 /**
  * Creates a DOM image object and set its onload and onerror properties.
  * If the image was already cached, onload is set immediatly.
@@ -19,8 +18,8 @@ exports.createHTMLImageElement = function (src, onLoad, onError) {
     var callback = function () {
         if (!called) {
             called = true;
-            img.onload = noOp;
-            img.onerror = noOp;
+            img.onload = noOp_1.noOp;
+            img.onerror = noOp_1.noOp;
             return true;
         }
         ;

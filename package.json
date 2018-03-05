@@ -39,7 +39,8 @@
     "ts": "tsc --moduleResolution Node --module commonjs --target es5 --outDir dist",
     "compile": "npm run clean:dist && npm run ts",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "prepublish": "npm run compile"
   },
   "devDependencies": {
     "@types/jest": "^22.1.0",
